@@ -2,3 +2,6 @@
 # IDE
 .vs/
 .vscode/
+
+# For @DuckDuckStudio
+.auto_script/
