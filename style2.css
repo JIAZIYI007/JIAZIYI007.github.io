@@ -1,0 +1,33 @@
+body {
+    background-color: #6dc0ede1; /* 蓝色背景 */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* 扩距
+*    margin-top: 1%;
+*    margin-bottom: 1%;
+*    margin-left: 1%;
+*    margin-right: 1%;
+*    such as: <div class="container" style="margin-right: 1%; margin-left: 1%;">左右扩距</div>
+*/
+
+.container {
+    background-color: rgba(255, 255, 255, 0.7); /* 亚克力效果垫底 */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+    color: #333;
+    font-size: 40px;
+}
+
+h2 {
+    color: #333;
+    font-size: 24px; /* 调整标题文本大小 */
+    margin-bottom: 10px; /* 调整标题与下方段落的间距 */
+}
