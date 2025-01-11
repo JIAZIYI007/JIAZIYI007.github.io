@@ -23,7 +23,7 @@ jobs:
         uses: DuckDuckStudio/Sitemap_Creator@1.0.1
         with:
           location: "sitemap.xml"
-          basic_link: "https://jiaziyi007.github.io/"
+          basic_link: "https://jiaziyi007.github.io"
           file_type: "html"
           ignore_file: "gb2312.html"
           website_path: "./"
