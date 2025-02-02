@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>评论页面</title>
+<style>
+  /* 在此处添加CSS样式 */
+  #comments {
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<h2>评论区域</h2>
+<form id="commentForm">
+  <input type="text" id="username" placeholder="请输入用户名(可选)">
+  <p></p>
+  <textarea id="comment" placeholder="请输入评论" required></textarea>
+  <p></p>
+  <button type="submit">提交评论</button>
+</form>
+
+<div id="comments">
+  <!-- 评论将显示在这里 -->
+</div>
+
+<script src="./comment.js"></script>
+
+</body>
+</html>
