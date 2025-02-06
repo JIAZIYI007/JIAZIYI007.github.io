@@ -86,7 +86,7 @@ function displayComments() {
       </p>
     `;
     commentsContainer.appendChild(commentElement);
-  });
+});
 
   document.querySelectorAll('.delete-comment').forEach(button => {
     button.addEventListener('click', function() {
