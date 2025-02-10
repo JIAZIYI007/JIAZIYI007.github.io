@@ -13,6 +13,10 @@ on:
       - '**/*.html'
   workflow_dispatch: # 手动运行
 
+# 相关文档: https://docs.github.com/zh/actions/writing-workflows/choosing-what-your-workflow-does/controlling-permissions-for-github_token
+permissions:
+  contents: write
+
 jobs:
   generate_sitemap:
     runs-on: ubuntu-latest
