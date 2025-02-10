@@ -11,7 +11,6 @@ on:
       # 当 main 分支上有新推送且以下文件被更改时
     paths:
       - '**/*.html'
-      - '**/*.md'
   workflow_dispatch: # 手动运行
 
 jobs:
