@@ -1,7 +1,7 @@
 name: Sitemap Creator 分支清理
 
 # 描述：清理已合并或已关闭的 Sitemap Creator 的拉取请求的分支。
-# 匹配依据：相关拉取请求带有 "Sitemap Creator" 标签。
+# 匹配依据：相关拉取请求带有 Sitemap Creator 标签。
 # Under the [MIT License](https://github.com/DuckDuckStudio/winget-tools/blob/main/LICENSE)
 
 on:
@@ -28,12 +28,12 @@ jobs:
           PR_LABELS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels")
           
-          # 检查标签中是否包含 "Sitemap Creator"
+          # 检查标签中是否包含 Sitemap Creator
           if echo "$PR_LABELS" | grep -q "Sitemap Creator"; then
-            echo "在拉取请求中找到了 "Sitemap Creator" 标签，我要把主人的分支 ${{ github.event.pull_request.head.ref }} 删掉了喵～"
+            echo "在拉取请求中找到了 Sitemap Creator 标签，我要把主人的分支 ${{ github.event.pull_request.head.ref }} 删掉了喵～"
             
             # 删除远程分支
             git push origin --delete ${{ github.event.pull_request.head.ref }}
           else
-            echo "喵~ 没有找到 "Sitemap Creator" 标签，这可能不是主人的自动化的拉取请求呢: #${{ github.event.pull_request.number }} (${{ github.event.pull_request.head.ref }})"
+            echo "喵~ 没有找到 Sitemap Creator 标签，这可能不是主人的自动化的拉取请求呢: #${{ github.event.pull_request.number }} (${{ github.event.pull_request.head.ref }})"
           fi
