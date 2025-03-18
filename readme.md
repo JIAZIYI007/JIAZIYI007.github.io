@@ -8,3 +8,5 @@ This is my first website, based on Github pages.
 
 # RSS源部署相关
 后期会考虑部署，但主要由于部署需要自己写xml的原因，目前此计划处于半弃坑状态。
+# 迁移相关
+如果后续资金充足，可能会考虑迁移到自己的服务器。
