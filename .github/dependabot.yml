@@ -9,3 +9,5 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+    labels: # Specify your own labels for all pull requests raised for a package manager.
+      - dependencies
