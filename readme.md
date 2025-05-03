@@ -10,3 +10,4 @@ This is my first website, based on Github pages.
 后期会考虑部署，但主要由于部署需要自己写xml的原因，目前此计划处于半弃坑状态。
 # 迁移相关
 目前已经购买了VPS服务器并已经部署软件，之后将开始迁移。
+(但会有少部分不会迁移)
