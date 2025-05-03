@@ -13,7 +13,7 @@
 	 HLS_Player = document.getElementById('HLS_Player');
 	if (Hls.isSupported()) {
 			HLS_Controller = new Hls();
-			HLS_Controller.loadSource("视屏流地址");
+			HLS_Controller.loadSource("https://play.livescope.hydun.com/live/jiaziyi007.m3u8");
 			HLS_Controller.attachMedia(HLS_Player);
 			HLS_Controller.on(Hls.Events.MANIFEST_PARSED, function() {
 			    HLS_Player.play();
