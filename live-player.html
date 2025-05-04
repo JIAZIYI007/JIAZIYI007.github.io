@@ -38,6 +38,12 @@
                 autoplay: true,
                 retryCount: 3 // 失败重试次数
             };
+            const hls = new Hls({
+                enableWorker: true,      // 启用Web Worker提升性能
+                maxBufferSize: 0,       // 动态调整缓冲区
+                maxMaxBufferLength: 30, // 最大缓冲时间
+            });
+
 
             // DOM元素
             const video = document.getElementById('HLS_Player');
