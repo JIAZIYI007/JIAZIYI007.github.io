@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>双模式HLS直播播放器 - JIAZIYI007的个人博客</title>
+    <title>双模式HLS直播播放器</title>
     
     <!-- 引入DPlayer样式 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
@@ -20,45 +20,45 @@
             background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
             color: #fff;
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
         }
         
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            width: 100%;
+            max-width: 1000px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         }
         
         header {
+            padding: 25px;
             text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
             background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin-bottom: 10px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-        
-        .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.8;
-            margin-bottom: 20px;
+            background: linear-gradient(90deg, #ff4e50, #f9d423);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .player-selector {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
+            gap: 15px;
+            margin-top: 20px;
         }
         
         .player-btn {
-            padding: 12px 24px;
+            padding: 12px 25px;
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50px;
@@ -67,6 +67,9 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .player-btn:hover {
@@ -79,11 +82,20 @@
             box-shadow: 0 0 15px rgba(255, 78, 80, 0.5);
         }
         
+        .player-btn i {
+            font-size: 1.2rem;
+        }
+        
         .player-container {
             position: relative;
             width: 100%;
-            margin: 20px auto;
-            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             background: #000;
@@ -111,7 +123,7 @@
         
         .play-button-container {
             text-align: center;
-            margin: 20px 0;
+            margin: 10px 0 20px;
         }
         
         #play-button {
@@ -123,7 +135,9 @@
             font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
-            display: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(249, 212, 35, 0.3);
         }
@@ -133,405 +147,37 @@
             box-shadow: 0 8px 20px rgba(249, 212, 35, 0.4);
         }
         
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 40px 0;
-        }
-        
-        .feature-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 25px;
-            transition: transform 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .feature-card h3 {
-            color: #f9d423;
-            margin-bottom: 15px;
-            font-size: 1.4rem;
-        }
-        
-        .feature-card p {
-            line-height: 1.6;
-            opacity: 0.9;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 40px;
+        .info-panel {
             padding: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
             margin-top: 20px;
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
         
-        .social-link {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
+        .info-panel h3 {
+            color: #f9d423;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
+            gap: 10px;
         }
         
-        .social-link:hover {
-            background: #ff4e50;
-            transform: translateY(-5px);
+        .info-panel ul {
+            padding-left: 20px;
         }
         
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .player-selector {
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
-            }
-            
-            .player-btn {
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            .features {
-                grid-template-columns: 1fr;
-            }
+        .info-panel li {
+            margin-bottom: 8px;
         }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>双模式HLS直播播放器</h1>
-            <p class="subtitle">JIAZIYI007的个人博客 - 支持hls.js+内置播放器和hls.js+DPlayer双模式</p>
-            
-            <div class="player-selector">
-                <button class="player-btn active" data-player="built-in">hls.js + 内置播放器</button>
-                <button class="player-btn" data-player="dplayer">hls.js + DPlayer</button>
-            </div>
-        </header>
         
-        <main>
-            <div class="player-container">
-                <video 
-                    id="HLS_Player" 
-                    controls 
-                    muted 
-                    playsinline
-                    poster="https://via.placeholder.com/800x450?text=直播加载中..."
-                ></video>
-                <div id="dplayer"></div>
-            </div>
-            
-            <div id="error-message"></div>
-            
-            <div class="play-button-container">
-                <button id="play-button">点击播放</button>
-            </div>
-            
-            <div class="features">
-                <div class="feature-card">
-                    <h3>双播放器模式</h3>
-                    <p>支持hls.js+浏览器内置播放器和hls.js+DPlayer两种播放模式，满足不同场景需求。DPlayer模式提供弹幕功能，增强互动体验。</p>
-                </div>
-                
-                <div class="feature-card">
-                    <h3>HLS直播支持</h3>
-                    <p>全面支持HLS流媒体直播协议，兼容各种设备和浏览器。自动检测浏览器支持情况，提供最佳播放方案。</p>
-                </div>
-                
-                <div class="feature-card">
-                    <h3>高级错误处理</h3>
-                    <p>完善的错误处理机制，自动重连、错误恢复和用户友好提示。支持网络中断自动重试，媒体错误自动恢复。</p>
-                </div>
-            </div>
-        </main>
-        
-        <footer>
-            <p>© 2023 JIAZIYI007的个人博客 | 高级HLS直播播放器</p>
-            <div class="social-links">
-                <a href="#" class="social-link">📱</a>
-                <a href="#" class="social-link">📘</a>
-                <a href="#" class="social-link">🐦</a>
-                <a href="#" class="social-link">📹</a>
-            </div>
-        </footer>
-    </div>
-    
-    <!-- 引入hls.js -->
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.0/dist/hls.min.js"></script>
-    
-    <!-- 引入DPlayer -->
-    <script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
-    
-    <script>
-        (function() {
-            // 配置参数
-            const config = {
-                hlsUrl: "https://play.livescope.hydun.com/live/jiaziyi007.m3u8",
-                autoplay: true,
-                retryCount: 3,
-                danmakuApi: 'https://api.prprpr.me/dplayer/'
-            };
-            
-            // DOM元素
-            const video = document.getElementById('HLS_Player');
-            const dplayerContainer = document.getElementById('dplayer');
-            const errorEl = document.getElementById('error-message');
-            const playButton = document.getElementById('play-button');
-            const playerButtons = document.querySelectorAll('.player-btn');
-            
-            // 播放器实例
-            let hls = null;
-            let dp = null;
-            let currentPlayer = 'built-in';
-            
-            // 初始化内置播放器
-            function initBuiltInPlayer() {
-                // 销毁现有的DPlayer
-                if (dp) {
-                    dp.destroy();
-                    dp = null;
-                }
-                
-                // 显示内置播放器
-                video.style.display = 'block';
-                dplayerContainer.style.display = 'none';
-                
-                // 初始化hls.js
-                if (Hls.isSupported()) {
-                    hls = new Hls({
-                        enableWorker: true,
-                        maxBufferLength: 30,
-                        liveSyncDuration: 5
-                    });
-                    
-                    hls.loadSource(config.hlsUrl);
-                    hls.attachMedia(video);
-                    
-                    // 错误处理
-                    hls.on(Hls.Events.ERROR, (event, data) => {
-                        handleError(`HLS错误: ${data.type} - ${data.details}`);
-                        if (data.fatal) {
-                            switch (data.type) {
-                                case Hls.ErrorTypes.NETWORK_ERROR:
-                                    hls.startLoad();
-                                    break;
-                                case Hls.ErrorTypes.MEDIA_ERROR:
-                                    hls.recoverMediaError();
-                                    break;
-                                default:
-                                    destroyPlayer();
-                                    break;
-                            }
-                        }
-                    });
-                    
-                    // 成功加载
-                    hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                        if (config.autoplay) {
-                            video.play().catch(() => {
-                                showPlayButton();
-                            });
-                        }
-                    });
-                    
-                } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                    // Safari原生支持
-                    video.src = config.hlsUrl;
-                    video.addEventListener('error', handleNativeError);
-                } else {
-                    handleError('当前浏览器不支持HLS播放');
-                }
-            }
-            
-            // 初始化DPlayer
-            function initDPlayer() {
-                // 销毁现有的hls.js实例
-                if (hls) {
-                    hls.destroy();
-                    hls = null;
-                }
-                
-                // 显示DPlayer容器
-                video.style.display = 'none';
-                dplayerContainer.style.display = 'block';
-                
-                // 初始化DPlayer
-                dp = new DPlayer({
-                    container: dplayerContainer,
-                    live: true,
-                    autoplay: config.autoplay,
-                    video: {
-                        url: config.hlsUrl,
-                        type: 'hls',
-                        customType: {
-                            hls: function(video, player) {
-                                const hls = new Hls({
-                                    enableWorker: true,
-                                    maxBufferLength: 30,
-                                    liveSyncDuration: 5
-                                });
-                                
-                                hls.loadSource(video.src);
-                                hls.attachMedia(video);
-                                
-                                // 错误处理
-                                hls.on(Hls.Events.ERROR, (event, data) => {
-                                    handleError(`HLS错误: ${data.type} - ${data.details}`);
-                                    if (data.fatal) {
-                                        switch (data.type) {
-                                            case Hls.ErrorTypes.NETWORK_ERROR:
-                                                hls.startLoad();
-                                                break;
-                                            case Hls.ErrorTypes.MEDIA_ERROR:
-                                                hls.recoverMediaError();
-                                                break;
-                                            default:
-                                                destroyPlayer();
-                                                break;
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    },
-                    danmaku: {
-                        id: 'jiaziyi007',
-                        api: config.danmakuApi,
-                        token: 'jiaziyi007token'
-                    },
-                    contextmenu: [
-                        {
-                            text: 'JIAZIYI007的博客',
-                            link: 'https://example.com'
-                        }
-                    ]
-                });
-                
-                // 处理自动播放被阻止的情况
-                dp.on('canplay', () => {
-                    if (config.autoplay) {
-                        dp.play().catch(() => {
-                            showPlayButton();
-                        });
-                    }
-                });
-            }
-            
-            // 切换播放器
-            function switchPlayer(playerType) {
-                currentPlayer = playerType;
-                
-                // 更新按钮状态
-                playerButtons.forEach(btn => {
-                    if (btn.dataset.player === playerType) {
-                        btn.classList.add('active');
-                    } else {
-                        btn.classList.remove('active');
-                    }
-                });
-                
-                // 销毁当前播放器
-                destroyPlayer();
-                
-                // 初始化新播放器
-                if (playerType === 'built-in') {
-                    initBuiltInPlayer();
-                } else {
-                    initDPlayer();
-                }
-            }
-            
-            // 错误处理函数
-            function handleError(message) {
-                errorEl.style.display = 'block';
-                errorEl.textContent = `错误: ${message} (${new Date().toLocaleTimeString()})`;
-                console.error(message);
-            }
-            
-            // 原生HLS错误处理
-            function handleNativeError(e) {
-                const errorCode = video.error ? video.error.code : '未知错误';
-                handleError(`原生播放错误: ${getErrorDescription(errorCode)}`);
-            }
-            
-            // 显示播放按钮
-            function showPlayButton() {
-                playButton.style.display = 'block';
-                playButton.onclick = () => {
-                    if (currentPlayer === 'built-in') {
-                        video.play();
-                    } else if (dp) {
-                        dp.play();
-                    }
-                    playButton.style.display = 'none';
-                };
-            }
-            
-            // 销毁播放器
-            function destroyPlayer() {
-                if (hls) {
-                    hls.destroy();
-                    hls = null;
-                }
-                
-                if (dp) {
-                    dp.destroy();
-                    dp = null;
-                }
-                
-                if (video) {
-                    video.removeAttribute('src');
-                    video.load();
-                }
-                
-                playButton.style.display = 'none';
-                errorEl.style.display = 'none';
-            }
-            
-            // 错误代码映射
-            function getErrorDescription(code) {
-                const errors = {
-                    1: "播放中止",
-                    2: "网络错误",
-                    3: "解码错误",
-                    4: "视频不支持"
-                };
-                return errors[code] || '未知错误';
-            }
-            
-            // 绑定播放器切换按钮事件
-            playerButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    switchPlayer(btn.dataset.player);
-                });
-            });
-            
-            // 初始化播放器
-            switchPlayer('built-in');
-            
-        })();
-    </script>
-</body>
-</html>
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.4);
+            font-size: 0.85rem;
+            color: #aaa;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
