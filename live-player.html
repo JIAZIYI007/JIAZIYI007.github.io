@@ -1,183 +1,144 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-    <meta charset="UTF-8">
+    <title>HLS直播播放器 - JIAZIYI007的个人博客</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>双模式HLS直播播放器</title>
-    
-    <!-- 引入DPlayer样式 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
-    
+    <!-- 推荐使用CDN引入hls.js -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.0"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 1000px;
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-        }
-        
-        header {
-            padding: 25px;
-            text-align: center;
-            background: rgba(0, 0, 0, 0.3);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #ff4e50, #f9d423);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .player-selector {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .player-btn {
-            padding: 12px 25px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50px;
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .player-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        .player-btn.active {
-            background: #ff4e50;
-            border-color: #ff4e50;
-            box-shadow: 0 0 15px rgba(255, 78, 80, 0.5);
-        }
-        
-        .player-btn i {
-            font-size: 1.2rem;
-        }
-        
-        .player-container {
-            position: relative;
-            width: 100%;
-            padding: 20px;
-        }
-        
-        .video-wrapper {
-            position: relative;
-            width: 100%;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            background: #000;
-            height: 0;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-        }
-        
-        #HLS_Player, .dplayer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-        }
-        
         #error-message {
-            color: #ff4e50;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-            display: none;
+            color: red;
+            display: none; /* 默认隐藏错误提示 */
         }
-        
-        .play-button-container {
-            text-align: center;
-            margin: 10px 0 20px;
-        }
-        
-        #play-button {
-            padding: 12px 30px;
-            background: linear-gradient(90deg, #ff4e50, #f9d423);
-            border: none;
-            border-radius: 50px;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(249, 212, 35, 0.3);
-        }
-        
-        #play-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(249, 212, 35, 0.4);
-        }
-        
-        .info-panel {
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            margin-top: 20px;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-        
-        .info-panel h3 {
-            color: #f9d423;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .info-panel ul {
-            padding-left: 20px;
-        }
-        
-        .info-panel li {
-            margin-bottom: 8px;
-        }
-        
-        .status-bar {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 20px;
-            background: rgba(0, 0, 0, 0.4);
-            font-size: 0.85rem;
-            color: #aaa;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
+    </style>
+</head>
+<body>
+    <!-- 播放器容器 -->
+    <div class="player-container">
+        <video 
+            id="HLS_Player" 
+            controls 
+            muted 
+            width="100%" 
+            height="auto"
+            poster="loading.jpg" <!-- 加载时的封面图 -->
+        ></video>
+        <div id="error-message"></div>
+        <button id="play-button" style="display:none;">点击播放</button>
+    </div>
+
+    <!-- 社交链接等其他内容 -->
+
+    <script>
+        (function() {
+            // 配置参数
+            const config = {
+                hlsUrl: "https://play.livescope.hydun.com/live/jiaziyi007.m3u8",
+                autoplay: true,
+                retryCount: 3 // 失败重试次数
+            };
+
+            // DOM元素
+            const video = document.getElementById('HLS_Player');
+            const errorEl = document.getElementById('error-message');
+            const playButton = document.getElementById('play-button');
+
+            // 核心播放逻辑
+            function initPlayer() {
+                if (Hls.isSupported()) {
+                    const hls = new Hls({
+                        enableWorker: true, // 启用Web Worker提升性能
+                        maxBufferLength: 30, // 最大缓冲长度(秒)
+                        liveSyncDuration: 5  // 直播同步延迟
+                    });
+
+                    // 加载视频源
+                    hls.loadSource(config.hlsUrl);
+                    hls.attachMedia(video);
+
+                    // 错误处理
+                    hls.on(Hls.Events.ERROR, (event, data) => {
+                        handleError(`HLS错误: ${data.type} - ${data.details}`);
+                        if (data.fatal) {
+                            switch (data.type) {
+                                case Hls.ErrorTypes.NETWORK_ERROR:
+                                    hls.startLoad(); // 网络错误自动重试
+                                    break;
+                                case Hls.ErrorTypes.MEDIA_ERROR:
+                                    hls.recoverMediaError(); // 媒体错误恢复
+                                    break;
+                                default:
+                                    destroyPlayer();
+                                    break;
+                            }
+                        }
+                    });
+
+                    // 成功加载
+                    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                        if (config.autoplay) {
+                            video.play().catch(() => {
+                                showPlayButton(); // 自动播放被阻止时显示按钮
+                            });
+                        }
+                    });
+
+                } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                    // Safari原生支持
+                    video.src = config.hlsUrl;
+                    video.addEventListener('error', handleNativeError);
+                } else {
+                    handleError('当前浏览器不支持HLS播放');
+                }
+            }
+
+            // 错误处理函数
+            function handleError(message) {
+                errorEl.style.display = 'block';
+                errorEl.textContent = `错误: ${message} (${new Date().toLocaleTimeString()})`;
+                console.error(message);
+            }
+
+            // 原生HLS错误处理
+            function handleNativeError(e) {
+                const errorCode = video.error ? video.error.code : '未知错误';
+                handleError(`原生播放错误: ${getErrorDescription(errorCode)}`);
+            }
+
+            // 显示播放按钮
+            function showPlayButton() {
+                playButton.style.display = 'block';
+                playButton.onclick = () => {
+                    video.play();
+                    playButton.style.display = 'none';
+                };
+            }
+
+            // 销毁播放器
+            function destroyPlayer() {
+                if (hls) {
+                    hls.destroy();
+                }
+                video.removeAttribute('src');
+                video.load();
+            }
+
+            // 错误代码映射
+            function getErrorDescription(code) {
+                const errors = {
+                    1: "播放中止",
+                    2: "网络错误",
+                    3: "解码错误",
+                    4: "视频不支持"
+                };
+                return errors[code] || '未知错误';
+            }
+
+            // 初始化播放器
+            initPlayer();
+
+        })(); // IIFE立即执行函数避免全局污染
+    </script>
+</body>
+</html>
