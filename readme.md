@@ -1,4 +1,3 @@
-This is my first website, based on Github pages.  
 这是我的第一个网站，基于Github Pages。  
 您可以下载源码，但源码里包含我的名字的html源文件须更改。
 
