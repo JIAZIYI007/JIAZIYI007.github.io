@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日期间隔与天数计算器</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #2575fc, #6a11cb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .current-date-section {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(116, 185, 255, 0.4);
+        }
+        
+        .current-date-text {
+            font-size: 1.3rem;
+        }
+        
+        #currentDate {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #ffeaa7;
+        }
+        
+        .get-current-btn {
+            background-color: #ffeaa7;
+            color: #2d3436;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        
+        .get-current-btn:hover {
+            background-color: #fdcb6e;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .calculator-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .calculator-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .calculator-box {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #eee;
+        }
+        
+        .calculator-title {
+            display: flex;
+            align-items: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f2f6;
+        }
+        
+        .calculator-title i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+            color: #6a11cb;
+        }
+        
+        .calculator-title h2 {
+            font-size: 1.6rem;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .date-input, .number-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #dfe6e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .date-input:focus, .number-input:focus {
+            border-color: #6a11cb;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+        }
+        
+        .date-inputs {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        
+        .date-inputs .input-group {
+            flex: 1;
+        }
+        
+        .operation-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .operation-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        
+        .add-btn {
+            background-color: #00b894;
+            color: white;
+        }
+        
+        .subtract-btn {
+            background-color: #e17055;
+            color: white;
+        }
+        
+        .add-btn:hover {
+            background-color: #00a085;
+        }
+        
+        .subtract-btn:hover {
+            background-color: #d65d45;
+        }
+        
+        .calculate-btn {
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
+            color: white;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(106, 17, 203, 0.3);
+        }
+        
+        .result-box {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            text-align: center;
+            border-left: 5px solid #6a11cb;
+        }
+        
+        .result-title {
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        
+        .result-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 10px 0;
+        }
+        
+        .result-detail {
+            color: #636e72;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: white;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .instructions {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 5px solid #74b9ff;
+        }
+        
+        .instructions h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .instructions h3 i {
+            margin-right: 10px;
+            color: #0984e3;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+            color: #555;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-calendar-alt"></i> 日期间隔与天数计算器</h1>
+            <p class="subtitle">轻松计算日期之间的天数差，进行日期的加减运算</p>
+        </header>
+        
+        <div class="current-date-section">
+            <div class="current-date-text">
+                当前日期：<span id="currentDate">正在获取...</span>
+            </div>
+            <button class="get-current-btn" id="setCurrentDate">
+                <i class="fas fa-sync-alt"></i> 设为当前日期
+            </button>
+        </div>
+        
+        <div class="calculator-section">
+            <div class="calculator-box">
+                <div class="calculator-title">
+                    <i class="fas fa-calculator"></i>
+                    <h2>日期间隔计算</h2>
+                </div>
+                
+                <div class="input-group">
+                    <label for="startDate">开始日期</label>
+                    <input type="date" id="startDate" class="date-input">
+                </div>
+                
+                <div class="input-group">
+                    <label for="endDate">结束日期</label>
+                    <input type="date" id="endDate" class="date-input">
+                </div>
+                
+                <button class="calculate-btn" id="calculateInterval">
+                    <i class="fas fa-calculator"></i> 计算间隔天数
+                </button>
+                
+                <div class="result-box" id="intervalResult">
+                    <div class="result-title">间隔天数计算结果</div>
+                    <div class="result-value">0 天</div>
+                    <div class="result-detail">请选择开始日期和结束日期</div>
+                </div>
+            </div>
+            
+            <div class="calculator-box">
+                <div class="calculator-title">
+                    <i class="fas fa-calendar-plus"></i>
+                    <h2>日期加减计算</h2>
+                </div>
+                
+                <div class="input-group">
+                    <label for="baseDate">基准日期</label>
+                    <input type="date" id="baseDate" class="date-input">
+                </div>
+                
+                <div class="input-group">
+                    <label for="daysNumber">天数</label>
+                    <input type="number" id="daysNumber" class="number-input" min="0" value="7" placeholder="请输入天数">
+                </div>
+                
+                <div class="operation-buttons">
+                    <button class="operation-btn add-btn" id="addDays">
+                        <i class="fas fa-plus"></i> 添加天数
+                    </button>
+                    <button class="operation-btn subtract-btn" id="subtractDays">
+                        <i class="fas fa-minus"></i> 减去天数
+                    </button>
+                </div>
+                
+                <div class="result-box" id="operationResult">
+                    <div class="result-title">计算结果</div>
+                    <div class="result-value">请选择基准日期</div>
+                    <div class="result-detail">然后选择添加或减去天数</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> 使用说明</h3>
+            <ul>
+                <li><strong>日期间隔计算</strong>：选择开始日期和结束日期，计算两个日期之间的间隔天数</li>
+                <li><strong>日期加减计算</strong>：选择基准日期，输入天数，然后点击"添加天数"或"减去天数"进行计算</li>
+                <li><strong>获取当前日期</strong>：点击"设为当前日期"按钮可以将当前日期填充到所有日期输入框中</li>
+                <li>所有日期输入框都支持手动输入或日历选择</li>
+            </ul>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2023 日期间隔与天数计算器 | 设计开发：前端工具集</p>
+    </footer>
+
+    <script>
+        // 获取DOM元素
+        const currentDateElement = document.getElementById('currentDate');
+        const setCurrentDateBtn = document.getElementById('setCurrentDate');
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+        const baseDateInput = document.getElementById('baseDate');
+        const daysNumberInput = document.getElementById('daysNumber');
+        const calculateIntervalBtn = document.getElementById('calculateInterval');
+        const addDaysBtn = document.getElementById('addDays');
+        const subtractDaysBtn = document.getElementById('subtractDays');
+        const intervalResultElement = document.getElementById('intervalResult');
+        const operationResultElement = document.getElementById('operationResult');
+        
+        // 获取并显示当前日期
+        function updateCurrentDate() {
+            const now = new Date();
+            const formattedDate = formatDate(now);
+            currentDateElement.textContent = formattedDate;
+            
+            // 设置默认日期输入值为当前日期
+            const dateInputValue = now.toISOString().split('T')[0];
+            startDateInput.value = dateInputValue;
+            endDateInput.value = dateInputValue;
+            baseDateInput.value = dateInputValue;
+        }
+        
+        // 格式化日期为YYYY年MM月DD日 星期X
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            
+            const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+            const weekday = weekdays[date.getDay()];
+            
+            return `${year}年${month}月${day}日 ${weekday}`;
+        }
+        
+        // 计算日期间隔
+        function calculateDateInterval() {
+            const startDate = new Date(startDateInput.value);
+            const endDate = new Date(endDateInput.value);
+            
+            // 验证日期输入
+            if (!startDateInput.value || !endDateInput.value) {
+                intervalResultElement.querySelector('.result-value').textContent = "请选择日期";
+                intervalResultElement.querySelector('.result-detail').textContent = "请确保开始日期和结束日期都已选择";
+                return;
+            }
+            
+            // 计算天数差
+            const timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
+            const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            
+            // 显示结果
+            intervalResultElement.querySelector('.result-value').textContent = `${dayDiff} 天`;
+            
+            // 显示详细信息
+            const startFormatted = formatDate(startDate);
+            const endFormatted = formatDate(endDate);
+            let orderText = "";
+            
+            if (endDate > startDate) {
+                orderText = `${startFormatted} 在 ${endFormatted} 之前`;
+            } else if (endDate < startDate) {
+                orderText = `${startFormatted} 在 ${endFormatted} 之后`;
+            } else {
+                orderText = "两个日期相同";
+            }
+            
+            intervalResultElement.querySelector('.result-detail').textContent = orderText;
+        }
+        
+        // 计算日期加减
+        function calculateDateOperation(isAddition) {
+            const baseDate = new Date(baseDateInput.value);
+            const days = parseInt(daysNumberInput.value);
+            
+            // 验证输入
+            if (!baseDateInput.value) {
+                operationResultElement.querySelector('.result-value').textContent = "请选择基准日期";
+                operationResultElement.querySelector('.result-detail').textContent = "请先选择基准日期";
+                return;
+            }
+            
+            if (isNaN(days) || days < 0) {
+                operationResultElement.querySelector('.result-value').textContent = "请输入有效天数";
+                operationResultElement.querySelector('.result-detail').textContent = "天数必须是大于等于0的数字";
+                return;
+            }
+            
+            // 计算新日期
+            const resultDate = new Date(baseDate);
+            if (isAddition) {
+                resultDate.setDate(resultDate.getDate() + days);
+            } else {
+                resultDate.setDate(resultDate.getDate() - days);
+            }
+            
+            // 格式化显示
+            const baseFormatted = formatDate(baseDate);
+            const resultFormatted = formatDate(resultDate);
+            const operationText = isAddition ? `添加 ${days} 天` : `减去 ${days} 天`;
+            
+            // 显示结果
+            operationResultElement.querySelector('.result-value').textContent = resultFormatted;
+            operationResultElement.querySelector('.result-detail').textContent = `${baseFormatted} ${operationText} 后得到`;
+        }
+        
+        // 将当前日期填充到所有输入框
+        function setAllDatesToCurrent() {
+            const now = new Date();
+            const dateInputValue = now.toISOString().split('T')[0];
+            
+            startDateInput.value = dateInputValue;
+            endDateInput.value = dateInputValue;
+            baseDateInput.value = dateInputValue;
+            
+            // 触发计算更新结果
+            calculateDateInterval();
+            calculateDateOperation(true);
+            
+            // 显示提示信息
+            showNotification("所有日期已设置为当前日期");
+        }
+        
+        // 显示通知
+        function showNotification(message) {
+            // 创建通知元素
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #00b894;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                z-index: 1000;
+                font-weight: bold;
+                transform: translateX(150%);
+                transition: transform 0.5s;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // 显示通知
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 10);
+            
+            // 隐藏并移除通知
+            setTimeout(() => {
+                notification.style.transform = 'translateX(150%)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 3000);
+        }
+        
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCurrentDate();
+            calculateDateInterval();
+            calculateDateOperation(true);
+            
+            // 设置默认的结束日期为开始日期后7天
+            const startDate = new Date(startDateInput.value);
+            const defaultEndDate = new Date(startDate);
+            defaultEndDate.setDate(startDate.getDate() + 7);
+            endDateInput.value = defaultEndDate.toISOString().split('T')[0];
+            calculateDateInterval();
+        });
+        
+        // 绑定事件监听器
+        setCurrentDateBtn.addEventListener('click', setAllDatesToCurrent);
+        calculateIntervalBtn.addEventListener('click', calculateDateInterval);
+        addDaysBtn.addEventListener('click', () => calculateDateOperation(true));
+        subtractDaysBtn.addEventListener('click', () => calculateDateOperation(false));
+        
+        // 当日期或天数输入变化时自动更新结果
+        startDateInput.addEventListener('change', calculateDateInterval);
+        endDateInput.addEventListener('change', calculateDateInterval);
+        baseDateInput.addEventListener('change', () => calculateDateOperation(true));
+        daysNumberInput.addEventListener('input', () => calculateDateOperation(true));
+        
+        // 初始计算一次
+        calculateDateInterval();
+        calculateDateOperation(true);
+    </script>
+</body>
+</html>
